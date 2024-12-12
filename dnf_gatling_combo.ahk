@@ -69,7 +69,7 @@ G.AddText('','格林')
 G.AddText('','跳跃')
 G.AddText('','BBQ')
 G.AddText('','踏射')
-link := G.AddLink('','<a href="http://www.baidu.com">Github</a>')
+link := G.AddLink('','<a href="https://github.com/tlf1144375711/dnf_gatling_combo">Github</a>')
 link := G.AddLink('','<a href="https://space.bilibili.com/44763794">Bilibili</a>')
 gun := G.AddDDL('YM W50 R10',arr)
 jump := G.AddDDL('W50 R10',arr)
@@ -87,7 +87,7 @@ trample.Text := 'b'
 
 btn := G.AddButton('Y+45 H40', '应用')
 btn.OnEvent('Click', change)
-G.AddStatusBar('','Version: 1.0')
+G.AddStatusBar('','Version: 1.1')
 G.Show()
 G.OnEvent('Close', (*)=>ExitApp())
 
