@@ -42,6 +42,10 @@ change(*) {
         ; 改完按键变量后，相关函数可以被启用了
         Hotkey('Tab','On')
         Hotkey('LWin','On')
+        IniWrite(gun.Text,'config.ini','skill','gun')
+        IniWrite(jump.Text,'config.ini','skill','jump')
+        IniWrite(bbq.Text,'config.ini','skill','bbq')
+        IniWrite(trample.Text,'config.ini','skill','trample')
         flag := !flag
     }
 }
@@ -80,10 +84,34 @@ PostMessage(0x153,-1,50,jump)
 PostMessage(0x153,-1,50,bbq)
 PostMessage(0x153,-1,50,trample)
 ; 下拉框默认值初始化
-gun.Text := 's'
-jump.Text := 'c'
-bbq.Text := 'g'
-trample.Text := 'b'
+
+
+try{
+    ini_gun := IniRead('config.ini','skill','gun')
+    ini_jump := IniRead('config.ini','skill','jump')
+    ini_bbq := IniRead('config.ini','skill','bbq')
+    ini_trample := IniRead('config.ini','skill','trample')
+}catch{
+    IniWrite('s','config.ini','skill','gun')
+    IniWrite('c','config.ini','skill','jump')
+    IniWrite('g','config.ini','skill','bbq')
+    IniWrite('b','config.ini','skill','trample')
+}finally{
+    ini_gun := IniRead('config.ini','skill','gun')
+    ini_jump := IniRead('config.ini','skill','jump')
+    ini_bbq := IniRead('config.ini','skill','bbq')
+    ini_trample := IniRead('config.ini','skill','trample')
+    gun.Text := ini_gun
+    jump.Text := ini_jump
+    bbq.Text := ini_bbq
+    trample.Text := ini_trample
+}
+
+
+
+
+
+
 
 btn := G.AddButton('Y+45 H40', '应用')
 btn.OnEvent('Click', change)
