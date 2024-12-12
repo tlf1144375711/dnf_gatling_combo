@@ -2,10 +2,9 @@
 #Warn All, MsgBox
 #SingleInstance Force
 #NoTrayIcon
-
-; 初始化
-Hotkey('Tab','Off')
-Hotkey('LWin','Off')
+; 开启时默认关闭tab和win热键
+Hotkey('Tab', 'Off')
+Hotkey('LWin', 'Off')
 arr := ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 ; 主要用到的函数
 SendKey(Key) {
@@ -14,6 +13,7 @@ SendKey(Key) {
     Sleep(50)
     DllCall('keybd_event', 'uchar', VK, 'uchar', SC, 'uint', 2, 'uptr', 0)
 }
+; 点击gui中的按钮会调用该函数，该函数负责切换程序的状态，开启或关闭热键
 change(*) {
     static flag := false
     if flag {
@@ -27,8 +27,8 @@ change(*) {
         bbq.Enabled := true
         trample.Enabled := true
         ; 此时脚本进入修改模式，修改模式中不能使用热键
-        Hotkey('Tab','Off')
-        Hotkey('LWin','Off')
+        Hotkey('Tab', 'Off')
+        Hotkey('LWin', 'Off')
         flag := !flag
     } else {
         btn.Text := '更改'
@@ -40,17 +40,16 @@ change(*) {
         ; 用户已经点击应用
         ; 脚本应该采集更改后的信息改掉按键变量
         ; 改完按键变量后，相关函数可以被启用了
-        Hotkey('Tab','On')
-        Hotkey('LWin','On')
-        IniWrite(gun.Text,'config.ini','skill','gun')
-        IniWrite(jump.Text,'config.ini','skill','jump')
-        IniWrite(bbq.Text,'config.ini','skill','bbq')
-        IniWrite(trample.Text,'config.ini','skill','trample')
+        Hotkey('Tab', 'On')
+        Hotkey('LWin', 'On')
+        IniWrite(gun.Text, 'config.ini', 'skill', 'gun')
+        IniWrite(jump.Text, 'config.ini', 'skill', 'jump')
+        IniWrite(bbq.Text, 'config.ini', 'skill', 'bbq')
+        IniWrite(trample.Text, 'config.ini', 'skill', 'trample')
         flag := !flag
     }
 }
-
-
+; 格林扯bbq
 Tab:: {
     SendKey(gun.Text)
     Sleep(100)
@@ -58,6 +57,7 @@ Tab:: {
     Sleep(13)
     SendKey(bbq.Text)
 }
+; 格林扯踏射
 LWin:: {
     SendKey(gun.Text)
     Sleep(100)
@@ -68,54 +68,44 @@ LWin:: {
 ; Gui设置
 G := Gui('+MaxSize150x270 +MinSize150x270 +Resize -MinimizeBox -MaximizeBox', 'dnf_gatling_combo')
 G.MarginX := 10, G.MarginY := 10
-G.SetFont('S12','Microsoft YaHei UI')
-G.AddText('','格林')
-G.AddText('','跳跃')
-G.AddText('','BBQ')
-G.AddText('','踏射')
-link := G.AddLink('','<a href="https://github.com/tlf1144375711/dnf_gatling_combo">Github</a>')
-link := G.AddLink('','<a href="https://space.bilibili.com/44763794">Bilibili</a>')
-gun := G.AddDDL('YM W50 R10',arr)
-jump := G.AddDDL('W50 R10',arr)
-bbq := G.AddDDL('W50 R10',arr)
-trample := G.AddDDL('W50 R10',arr)
-PostMessage(0x153,-1,50,gun)
-PostMessage(0x153,-1,50,jump)
-PostMessage(0x153,-1,50,bbq)
-PostMessage(0x153,-1,50,trample)
-; 下拉框默认值初始化
-
-
-try{
-    ini_gun := IniRead('config.ini','skill','gun')
-    ini_jump := IniRead('config.ini','skill','jump')
-    ini_bbq := IniRead('config.ini','skill','bbq')
-    ini_trample := IniRead('config.ini','skill','trample')
-}catch{
-    IniWrite('s','config.ini','skill','gun')
-    IniWrite('c','config.ini','skill','jump')
-    IniWrite('g','config.ini','skill','bbq')
-    IniWrite('b','config.ini','skill','trample')
-}finally{
-    ini_gun := IniRead('config.ini','skill','gun')
-    ini_jump := IniRead('config.ini','skill','jump')
-    ini_bbq := IniRead('config.ini','skill','bbq')
-    ini_trample := IniRead('config.ini','skill','trample')
+G.SetFont('S12', 'Microsoft YaHei UI')
+G.AddText('', '格林')
+G.AddText('', '跳跃')
+G.AddText('', 'BBQ')
+G.AddText('', '踏射')
+link := G.AddLink('', '<a href="https://github.com/tlf1144375711/dnf_gatling_combo">Github</a>')
+link := G.AddLink('', '<a href="https://space.bilibili.com/44763794">Bilibili</a>')
+gun := G.AddDDL('YM W50 R10', arr)
+jump := G.AddDDL('W50 R10', arr)
+bbq := G.AddDDL('W50 R10', arr)
+trample := G.AddDDL('W50 R10', arr)
+PostMessage(0x153, -1, 50, gun)
+PostMessage(0x153, -1, 50, jump)
+PostMessage(0x153, -1, 50, bbq)
+PostMessage(0x153, -1, 50, trample)
+; 下拉框默认值从ini中读取，如果不存在ini则赋给默认值
+try {
+    ini_gun := IniRead('config.ini', 'skill', 'gun')
+    ini_jump := IniRead('config.ini', 'skill', 'jump')
+    ini_bbq := IniRead('config.ini', 'skill', 'bbq')
+    ini_trample := IniRead('config.ini', 'skill', 'trample')
+} catch {
+    IniWrite('s', 'config.ini', 'skill', 'gun')
+    IniWrite('c', 'config.ini', 'skill', 'jump')
+    IniWrite('g', 'config.ini', 'skill', 'bbq')
+    IniWrite('b', 'config.ini', 'skill', 'trample')
+} finally {
+    ini_gun := IniRead('config.ini', 'skill', 'gun')
+    ini_jump := IniRead('config.ini', 'skill', 'jump')
+    ini_bbq := IniRead('config.ini', 'skill', 'bbq')
+    ini_trample := IniRead('config.ini', 'skill', 'trample')
     gun.Text := ini_gun
     jump.Text := ini_jump
     bbq.Text := ini_bbq
     trample.Text := ini_trample
 }
-
-
-
-
-
-
-
 btn := G.AddButton('Y+45 H40', '应用')
 btn.OnEvent('Click', change)
-G.AddStatusBar('','Version: 1.1')
+G.AddStatusBar('', 'Version: 2.0')
 G.Show()
-G.OnEvent('Close', (*)=>ExitApp())
-
+G.OnEvent('Close', (*) => ExitApp())
