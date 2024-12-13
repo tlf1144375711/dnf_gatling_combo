@@ -29,6 +29,7 @@ change(*) {
         ; 此时脚本进入修改模式，修改模式中不能使用热键
         Hotkey('Tab', 'Off')
         Hotkey('LWin', 'Off')
+        btn.Focus()
         flag := !flag
     } else {
         btn.Text := '更改'
@@ -46,6 +47,7 @@ change(*) {
         IniWrite(jump.Text, 'config.ini', 'skill', 'jump')
         IniWrite(bbq.Text, 'config.ini', 'skill', 'bbq')
         IniWrite(trample.Text, 'config.ini', 'skill', 'trample')
+        btn.Focus()
         flag := !flag
     }
 }
@@ -79,10 +81,10 @@ gun := G.AddDDL('YM W50 R10', arr)
 jump := G.AddDDL('W50 R10', arr)
 bbq := G.AddDDL('W50 R10', arr)
 trample := G.AddDDL('W50 R10', arr)
-PostMessage(0x153, -1, 50, gun)
-PostMessage(0x153, -1, 50, jump)
-PostMessage(0x153, -1, 50, bbq)
-PostMessage(0x153, -1, 50, trample)
+PostMessage(0x153, -1, 40, gun)
+PostMessage(0x153, -1, 40, jump)
+PostMessage(0x153, -1, 40, bbq)
+PostMessage(0x153, -1, 40, trample)
 ; 下拉框默认值从ini中读取，如果不存在ini则赋给默认值
 try {
     ini_gun := IniRead('config.ini', 'skill', 'gun')
@@ -106,6 +108,7 @@ try {
 }
 btn := G.AddButton('Y+45 H40', '应用')
 btn.OnEvent('Click', change)
+btn.Focus()
 G.AddStatusBar('', 'Version: 2.0')
 G.Show()
 G.OnEvent('Close', (*) => ExitApp())
