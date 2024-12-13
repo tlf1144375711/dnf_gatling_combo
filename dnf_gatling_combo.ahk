@@ -106,6 +106,6 @@ try {
 btn := G.AddButton('Y+30 H40', '应用')
 btn.OnEvent('Click', change)
 btn.Focus()
-G.AddStatusBar('', 'Version: 2.1')
+G.AddStatusBar('', 'Version: 2.2')
 G.Show()
 G.OnEvent('Close', (*) => ExitApp())
