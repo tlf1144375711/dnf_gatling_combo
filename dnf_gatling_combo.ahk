@@ -78,13 +78,13 @@ G.AddText('', '踏射')
 link := G.AddLink('', '<a href="https://github.com/tlf1144375711/dnf_gatling_combo">Github</a>')
 link := G.AddLink('', '<a href="https://space.bilibili.com/44763794">Bilibili</a>')
 gun := G.AddDDL('YM W50 R10', arr)
-jump := G.AddDDL('W50 R10', arr)
-bbq := G.AddDDL('W50 R10', arr)
-trample := G.AddDDL('W50 R10', arr)
-PostMessage(0x153, -1, 40, gun)
-PostMessage(0x153, -1, 40, jump)
-PostMessage(0x153, -1, 40, bbq)
-PostMessage(0x153, -1, 40, trample)
+jump := G.AddDDL('W50 R10 Y+12', arr)
+bbq := G.AddDDL('W50 R10 Y+12', arr)
+trample := G.AddDDL('W50 R10 Y+12', arr)
+; PostMessage(0x153, -1, 40, gun)
+; PostMessage(0x153, -1, 40, jump)
+; PostMessage(0x153, -1, 40, bbq)
+; PostMessage(0x153, -1, 40, trample)
 ; 下拉框默认值从ini中读取，如果不存在ini则赋给默认值
 try {
     ini_gun := IniRead('config.ini', 'skill', 'gun')
@@ -106,7 +106,7 @@ try {
     bbq.Text := ini_bbq
     trample.Text := ini_trample
 }
-btn := G.AddButton('Y+45 H40', '应用')
+btn := G.AddButton('Y+35 H40', '应用')
 btn.OnEvent('Click', change)
 btn.Focus()
 G.AddStatusBar('', 'Version: 2.1')
