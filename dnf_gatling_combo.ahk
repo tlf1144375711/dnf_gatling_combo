@@ -43,10 +43,10 @@ change(*) {
         ; 改完按键变量后，相关函数可以被启用了
         Hotkey('Tab', 'On')
         Hotkey('LWin', 'On')
-        IniWrite(gun.Text, 'config.ini', 'skill', 'gun')
-        IniWrite(jump.Text, 'config.ini', 'skill', 'jump')
-        IniWrite(bbq.Text, 'config.ini', 'skill', 'bbq')
-        IniWrite(trample.Text, 'config.ini', 'skill', 'trample')
+        IniWrite(gun.Text, 'config_dnf_gatling_combo.ini', 'skill', 'gun')
+        IniWrite(jump.Text, 'config_dnf_gatling_combo.ini', 'skill', 'jump')
+        IniWrite(bbq.Text, 'config_dnf_gatling_combo.ini', 'skill', 'bbq')
+        IniWrite(trample.Text, 'config_dnf_gatling_combo.ini', 'skill', 'trample')
         btn.Focus()
         flag := !flag
     }
@@ -84,20 +84,20 @@ trample := G.AddDDL('W50 R10 Y+12', arr)
 
 ; 下拉框默认值从ini中读取，如果不存在ini则赋给默认值
 try {
-    ini_gun := IniRead('config.ini', 'skill', 'gun')
-    ini_jump := IniRead('config.ini', 'skill', 'jump')
-    ini_bbq := IniRead('config.ini', 'skill', 'bbq')
-    ini_trample := IniRead('config.ini', 'skill', 'trample')
+    ini_gun := IniRead('config_dnf_gatling_combo.ini', 'skill', 'gun')
+    ini_jump := IniRead('config_dnf_gatling_combo.ini', 'skill', 'jump')
+    ini_bbq := IniRead('config_dnf_gatling_combo.ini', 'skill', 'bbq')
+    ini_trample := IniRead('config_dnf_gatling_combo.ini', 'skill', 'trample')
 } catch {
-    IniWrite('s', 'config.ini', 'skill', 'gun')
-    IniWrite('c', 'config.ini', 'skill', 'jump')
-    IniWrite('g', 'config.ini', 'skill', 'bbq')
-    IniWrite('b', 'config.ini', 'skill', 'trample')
+    IniWrite('s', 'config_dnf_gatling_combo.ini', 'skill', 'gun')
+    IniWrite('c', 'config_dnf_gatling_combo.ini', 'skill', 'jump')
+    IniWrite('g', 'config_dnf_gatling_combo.ini', 'skill', 'bbq')
+    IniWrite('b', 'config_dnf_gatling_combo.ini', 'skill', 'trample')
 } finally {
-    ini_gun := IniRead('config.ini', 'skill', 'gun')
-    ini_jump := IniRead('config.ini', 'skill', 'jump')
-    ini_bbq := IniRead('config.ini', 'skill', 'bbq')
-    ini_trample := IniRead('config.ini', 'skill', 'trample')
+    ini_gun := IniRead('config_dnf_gatling_combo.ini', 'skill', 'gun')
+    ini_jump := IniRead('config_dnf_gatling_combo.ini', 'skill', 'jump')
+    ini_bbq := IniRead('config_dnf_gatling_combo.ini', 'skill', 'bbq')
+    ini_trample := IniRead('config_dnf_gatling_combo.ini', 'skill', 'trample')
     gun.Text := ini_gun
     jump.Text := ini_jump
     bbq.Text := ini_bbq
@@ -106,6 +106,6 @@ try {
 btn := G.AddButton('Y+30 H40', '应用')
 btn.OnEvent('Click', change)
 btn.Focus()
-G.AddStatusBar('', 'Version: 2.2')
+G.AddStatusBar('', 'Version: 2.3')
 G.Show()
 G.OnEvent('Close', (*) => ExitApp())
