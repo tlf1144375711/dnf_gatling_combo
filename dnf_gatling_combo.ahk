@@ -1,5 +1,4 @@
 #Requires AutoHotkey v2.0
-#Warn All, MsgBox
 #SingleInstance Force
 #NoTrayIcon
 ; 开启时默认关闭tab和win热键
@@ -27,10 +26,8 @@ change(*) {
         bbq.Enabled := true
         trample.Enabled := true
         ; 此时脚本进入修改模式，修改模式中不能使用热键
-        Hotkey('Tab', 'Off')
-        Hotkey('LWin', 'Off')
-        btn.Focus()
-        flag := !flag
+        Hotkey('Tab', 'Toggle')
+        Hotkey('LWin', 'Toggle')
     } else {
         btn.Text := '更改'
         gun.Enabled := false
@@ -41,15 +38,15 @@ change(*) {
         ; 用户已经点击应用
         ; 脚本应该采集更改后的信息改掉按键变量
         ; 改完按键变量后，相关函数可以被启用了
-        Hotkey('Tab', 'On')
-        Hotkey('LWin', 'On')
+        Hotkey('Tab', 'Toggle')
+        Hotkey('LWin', 'Toggle')
         IniWrite(gun.Text, 'config_dnf_gatling_combo.ini', 'skill', 'gun')
         IniWrite(jump.Text, 'config_dnf_gatling_combo.ini', 'skill', 'jump')
         IniWrite(bbq.Text, 'config_dnf_gatling_combo.ini', 'skill', 'bbq')
         IniWrite(trample.Text, 'config_dnf_gatling_combo.ini', 'skill', 'trample')
-        btn.Focus()
-        flag := !flag
     }
+    btn.Focus()
+    flag := !flag
 }
 ; 格林扯bbq
 Tab:: {
@@ -68,44 +65,35 @@ LWin:: {
     SendKey(trample.Text)
 }
 ; Gui设置
-G := Gui('+MaxSize150x270 +MinSize150x270 +Resize -MinimizeBox -MaximizeBox', 'dnf_gatling_combo')
+G := Gui('+MaxSize150x270 +MinSize150x270 +Resize -MinimizeBox -MaximizeBox')
 G.MarginX := 10, G.MarginY := 10
 G.SetFont('S12', 'Microsoft YaHei UI')
 G.AddText('', '格林')
 G.AddText('', '跳跃')
 G.AddText('', 'BBQ')
 G.AddText('', '踏射')
-link := G.AddLink('', '<a href="https://github.com/tlf1144375711/dnf_gatling_combo">Github</a>')
-link := G.AddLink('', '<a href="https://space.bilibili.com/44763794">Bilibili</a>')
+G.AddLink('', '<a href="https://github.com/tlf1144375711/dnf_gatling_combo">Github</a>')
+G.AddLink('', '<a href="https://space.bilibili.com/44763794">Bilibili</a>')
 gun := G.AddDDL('YM W50 R10', arr)
 jump := G.AddDDL('W50 R10 Y+12', arr)
 bbq := G.AddDDL('W50 R10 Y+12', arr)
 trample := G.AddDDL('W50 R10 Y+12', arr)
 
 ; 下拉框默认值从ini中读取，如果不存在ini则赋给默认值
-try {
-    ini_gun := IniRead('config_dnf_gatling_combo.ini', 'skill', 'gun')
-    ini_jump := IniRead('config_dnf_gatling_combo.ini', 'skill', 'jump')
-    ini_bbq := IniRead('config_dnf_gatling_combo.ini', 'skill', 'bbq')
-    ini_trample := IniRead('config_dnf_gatling_combo.ini', 'skill', 'trample')
-} catch {
-    IniWrite('s', 'config_dnf_gatling_combo.ini', 'skill', 'gun')
-    IniWrite('c', 'config_dnf_gatling_combo.ini', 'skill', 'jump')
-    IniWrite('g', 'config_dnf_gatling_combo.ini', 'skill', 'bbq')
-    IniWrite('b', 'config_dnf_gatling_combo.ini', 'skill', 'trample')
-} finally {
-    ini_gun := IniRead('config_dnf_gatling_combo.ini', 'skill', 'gun')
-    ini_jump := IniRead('config_dnf_gatling_combo.ini', 'skill', 'jump')
-    ini_bbq := IniRead('config_dnf_gatling_combo.ini', 'skill', 'bbq')
-    ini_trample := IniRead('config_dnf_gatling_combo.ini', 'skill', 'trample')
-    gun.Text := ini_gun
-    jump.Text := ini_jump
-    bbq.Text := ini_bbq
-    trample.Text := ini_trample
-}
+gun.Text := ini_gun := IniRead('config_dnf_gatling_combo.ini', 'skill', 'gun', 's')
+jump.Text := ini_jump := IniRead('config_dnf_gatling_combo.ini', 'skill', 'jump', 'c')
+bbq.Text := ini_bbq := IniRead('config_dnf_gatling_combo.ini', 'skill', 'bbq', 'g')
+trample.Text := ini_trample := IniRead('config_dnf_gatling_combo.ini', 'skill', 'trample', 'b')
 btn := G.AddButton('Y+30 H40', '应用')
 btn.OnEvent('Click', change)
 btn.Focus()
-G.AddStatusBar('', 'Version: 2.3')
+Version := '2.3'
+G.AddStatusBar('', 'Version: ' . Version)
 G.Show()
 G.OnEvent('Close', (*) => ExitApp())
+; 自动编译
+name := StrReplace(A_ScriptName,'.ahk') . '_' . Version . '.exe'
+ico := StrReplace(A_ScriptName,'.ahk') . '.ico'
+cmd := '"C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe" /base "C:\Program Files\AutoHotkey\v2\AutoHotkey32.exe" /in ' . A_ScriptName . ' /icon ' . ico . ' /out ' . name
+; OutputDebug cmd
+Run(cmd)
