@@ -92,8 +92,13 @@ G.AddStatusBar('', 'Version: ' . Version)
 G.Show()
 G.OnEvent('Close', (*) => ExitApp())
 ; 自动编译
+
+
+
+;@Ahk2Exe-IgnoreBegin
 name := StrReplace(A_ScriptName,'.ahk') . '_' . Version . '.exe'
 ico := StrReplace(A_ScriptName,'.ahk') . '.ico'
 cmd := '"C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe" /base "C:\Program Files\AutoHotkey\v2\AutoHotkey32.exe" /in ' . A_ScriptName . ' /icon ' . ico . ' /out ' . name
-; OutputDebug cmd
+OutputDebug cmd
 Run(cmd)
+;@Ahk2Exe-IgnoreEnd
